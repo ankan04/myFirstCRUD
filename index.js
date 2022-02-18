@@ -1,4 +1,5 @@
 const express= require('express');
+const res = require('express/lib/response');
 const mongoose = require('mongoose');
 mongoose.ObjectId()
 
@@ -39,7 +40,17 @@ const User = mongoose.model("User", userSchema);
       res.status(201).json(response)
        })
 
+app.put("/users:id", async(req,res)=>{
+  const{id}=req.params.id;
+  const{name}= req.body
+  const response= await User.updateOne({_id:id}, {$set:{name}})
+  res.json(response)
+})
 
+  app.delete("/users:id", async(req,res)=>{
+  const response= await User.deleteOne({_id:ObjectId(req.params.id)})
+  res.json(response)
+})
 
       main()
       .then(console.log)
